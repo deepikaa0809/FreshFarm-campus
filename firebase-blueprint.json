@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "University employee or Agriculture Department staff.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["employee", "admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "vegetable": {
+      "title": "Vegetable",
+      "description": "Fresh produce available for sale.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "pricePerKg": { "type": "number" },
+        "stockKg": { "type": "number" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "isAvailable": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "pricePerKg", "stockKg", "isAvailable"]
+    },
+    "order": {
+      "title": "Order",
+      "description": "A purchase request from an employee.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "vegetableId": { "type": "string" },
+              "name": { "type": "string" },
+              "quantityKg": { "type": "number" },
+              "priceAtOrder": { "type": "number" }
+            }
+          }
+        },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "ready", "picked_up", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "pickupTime": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "items", "totalAmount", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "User profiles"
+    },
+    "/vegetables/{vegetableId}": {
+      "schema": "vegetable",
+      "description": "Inventory of fresh produce"
+    },
+    "/orders/{orderId}": {
+      "schema": "order",
+      "description": "Customer orders"
+    }
+  }
+}

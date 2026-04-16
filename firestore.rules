@@ -87,7 +87,7 @@ service cloud.firestore {
     }
 
     match /vegetables/{vegetableId} {
-      allow read: if isAuthenticated();
+      allow read: if true; // Public read access
       allow write: if isAdmin() && isValidVegetable(request.resource.data);
     }
 

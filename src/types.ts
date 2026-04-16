@@ -27,7 +27,7 @@ export interface OrderItem {
   priceAtOrder: number;
 }
 
-export type OrderStatus = 'pending' | 'confirmed' | 'ready' | 'picked_up' | 'cancelled';
+export type OrderStatus = 'pending' | 'paid' | 'confirmed' | 'ready' | 'picked_up' | 'cancelled';
 
 export interface Order {
   id: string;
@@ -36,6 +36,9 @@ export interface Order {
   items: OrderItem[];
   totalAmount: number;
   status: OrderStatus;
+  paymentMethod?: 'upi' | 'card' | 'cod';
+  paymentStatus?: 'pending' | 'completed' | 'failed';
+  deliveryAddress?: string;
   createdAt: string;
   pickupTime?: string;
 }
